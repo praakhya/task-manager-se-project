@@ -1,9 +1,9 @@
 const ToDo = require("./ToDo");
 exports.getToDo = async (req,res) => {
     try {
-        const books = await Book.find({});
+        const todo = await ToDo.find({});
         //console.log("In load: ",books);
-        return res.status(200).json(books)
+        return res.status(200).json(todo)
     }
     catch(err) {
         console.log("error: ", err);
@@ -14,18 +14,33 @@ exports.getToDo = async (req,res) => {
 };
 
 exports.addToDo = async (req,res) => {
-    console.log("Final url is ", url)
+    console.log("Final url is ", req.originalUrl)
     const todo = new ToDo({
         title:req.body.title,
         description:req.body.description,
-        done: req.body.done,
+        done: false,
     })
     try {
         console.log(todo)
-        await ToDo.create(todo)
-        res.writeHead(301, { Location: "/main" });
-        return res.end();
+        todo = await ToDo.create(todo)
+        console.log("returned: ",todo)
+        res.status(200).json(todo)
     } 
+    catch (err) {
+        res.status(409).json({
+            message: "ToDo addition unsuccessful",
+            error: err.message
+        })
+    }
+}
+
+exports.putToDo = async (req,res) => {
+    const id = req.params.id;
+    console.log("in put at server: ",req)
+    try{
+        await Book.updateOne( {_id: id}, req.body);
+        this.getToDo(req,res);
+    }
     catch (err) {
         res.status(409).json({
             message: "ToDo addition unsuccessful",
