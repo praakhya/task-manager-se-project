@@ -2,17 +2,9 @@ import logo from './logo.svg';
 import React, { Component } from 'react';
 import './ToDo.css'
 import ToDoItem from './ToDoItem';
+import axios from 'axios';
 
-{/* <ToDoItem
-            title="First"
-            description="This is the first item" />,
-          <ToDoItem
-            title="Second"
-            description="This is the second item" />,
-          <ToDoItem
-            title="Third"
-            description="This is the third item" />,
-        ]} */}
+
 class ToDoList extends Component {
     constructor(props) {
         super();
@@ -21,36 +13,30 @@ class ToDoList extends Component {
     getToDo() {
         console.log("in get ToDo");
         var baseUrl = "/api";
-        fetch(baseUrl + '/load/todo', {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8'
+        axios.get(baseUrl+'/load/todo')
+        .then(response => {
+          if (response.status != 200) {
+            throw new Error(response.message);
           }
+          //console.log("immediated response: ",response)
+          return response.data})
+        .then(data=>{
+          console.log("data: ",data)
+          this.setItemList(data) 
         })
-          .then(response => {
-    
-            if (response.status != 200) {
-              throw new Error(response.message);
-            }
-            console.log("immediated response: ",response)
-            return response.json()
-          })
-          .then((response) => {
-            console.log("response in getToDo: ", response);
-            console.log("data: ", response);
-            this.setItemList(response)            
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      };
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     setItemList(response) {
       var temp = []
       for (let todo of response) {
         temp.push({
           "title":todo.title,
           "description":todo.description,
-          "done":todo.done
+          "done":todo.done,
+          "_id":todo.id
         })
       }
       this.setState({list:temp});

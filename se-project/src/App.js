@@ -14,17 +14,7 @@ class App extends Component {
     return (
       <div className="App">
         <EditToDo></EditToDo>
-        <ToDoList list={[
-          <ToDoItem
-            title="First"
-            description="This is the first item" />,
-          <ToDoItem
-            title="Second"
-            description="This is the second item" />,
-          <ToDoItem
-            title="Third"
-            description="This is the third item" />,
-        ]} />
+        <ToDoList/>
       </div>
     );
   }
