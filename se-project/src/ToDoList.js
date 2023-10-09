@@ -3,12 +3,15 @@ import React, { Component } from 'react';
 import './ToDo.css'
 import ToDoItem from './ToDoItem';
 import axios from 'axios';
-
+import { toDoContext } from './toDoContext';
 
 class ToDoList extends Component {
     constructor(props) {
         super();
         this.state = {list:[]}
+        this.getToDo = this.getToDo.bind(this)
+        this.initToDoData = this.initToDoData.bind(this)
+        this.setItemList = this.setItemList.bind(this)
     }
     getToDo() {
         console.log("in get ToDo");
@@ -28,7 +31,11 @@ class ToDoList extends Component {
           console.log(err);
         });
     }
-
+    initToDoData(data){
+      console.log("init data: ",data)
+      this.context.setToDoData(data)
+      console.log("toDo state var: ",this.context.toDoData)
+    }
     setItemList(response) {
       var temp = []
       for (let todo of response) {
@@ -39,8 +46,9 @@ class ToDoList extends Component {
           "_id":todo.id
         })
       }
-      this.setState({list:temp});
-      console.log("list: ",this.state.list)
+      this.initToDoData(temp)
+      this.setState({list:temp})
+      console.log("context var: ",this.context)
     }
     componentDidMount() {
       console.log("before getToDo")
@@ -48,19 +56,24 @@ class ToDoList extends Component {
       console.log("ToDoList mounted")
     }
     render() {
-        var itemList = []
-        for (let todo of this.state.list){
-          itemList.push(<ToDoItem title={todo.title} description={todo.description} done={todo.done}/>)
+        if (!this.state.list) {
+          return (<div></div>)
         }
-        console.log("itemList: ",itemList)
-        return (
-          [
-            <div className="ToDoList">
-            {itemList}
-            </div>,
-            <p>ToDoList</p>
-          ]
-        );
+        else {
+          var itemList = []
+          for (let todo of this.state.list){
+            itemList.push(<ToDoItem title={todo.title} description={todo.description} done={todo.done}/>)
+          }
+          console.log("itemList: ",itemList)
+          return (
+              <div className="ToDoList">
+              {itemList}
+              </div>
+          );
+        }
+        
     }
   }
+
+ToDoList.contextType = toDoContext
 export default ToDoList
