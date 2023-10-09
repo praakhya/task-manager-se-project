@@ -15,18 +15,20 @@ exports.getToDo = async (req,res) => {
 
 exports.addToDo = async (req,res) => {
     console.log("Final url is ", req.originalUrl)
-    const todo = new ToDo({
+    var todo = new ToDo({
         title:req.body.title,
         description:req.body.description,
         done: false,
     })
+    console.log("created todo: ",todo);
     try {
         console.log(todo)
         todo = await ToDo.create(todo)
-        console.log("returned: ",todo)
+        //console.log("returned: ",todo)
         res.status(200).json(todo)
     } 
     catch (err) {
+        console.log("error:",err)
         res.status(409).json({
             message: "ToDo addition unsuccessful",
             error: err.message
