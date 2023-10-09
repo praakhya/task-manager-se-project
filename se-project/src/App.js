@@ -4,21 +4,26 @@ import ToDoList from './ToDoList.js';
 import ToDoItem from './ToDoItem';
 import EditToDo from './EditToDo';
 import axios from "axios";
-import { Component } from 'react';
+import { Component, createContext, useState } from 'react';
 import { ToDoProvider, toDoContext } from './toDoContext';
 import { useContext } from 'react';
 class App extends Component {
+  //This is the method to set the context data.
+  setToDoData = (toDoData) => {
+    this.setState({ toDoData });
+  }
   state = {
-    data: null
-  };
+    toDoData: [],
+    setToDoData: this.setToDoData
+  }
+render() {
   
-  render() {
     return (
       <div className="App">
-        <ToDoProvider value={[]}>
+      <toDoContext.Provider value={this.state}>
         <EditToDo></EditToDo>
         <ToDoList/>
-        </ToDoProvider>
+        </toDoContext.Provider>
       </div>
     );
   }

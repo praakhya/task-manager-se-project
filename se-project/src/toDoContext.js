@@ -2,7 +2,6 @@ import React, { Children } from "react";
 import { useEffect, useState, useContext, createContext } from "react";
 
 const toDoContext = React.createContext();
-const context = toDoContext;
 function ToDoProvider({ children }) {
     // The useState() hook defines a state variable.
     const [toDoData, setToDoData] = useState([]);
@@ -19,9 +18,9 @@ function ToDoProvider({ children }) {
     // user data to provide to any consumers. (And the effect will not
     // run again.)
     return (
-        <context.Provider value={{ toDoData: toDoData, setToDoData:setToDoData }}>
+        <toDoContext.Provider value={{ toDoData, setToDoData}}>
             {children}
-        </context.Provider>
+        </toDoContext.Provider>
     );
 }
 

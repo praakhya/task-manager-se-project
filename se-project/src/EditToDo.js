@@ -5,23 +5,28 @@ import Button from '@mui/material/Button';
 import { TextField, Card } from '@mui/material';
 import axios from 'axios';
 import { toDoContext } from './toDoContext';
+
 class EditToDo extends Component {
+    static contextType = toDoContext;
     constructor(props) {
         super();
         this.state = {
             title: '',
             description: ''
         }
+
         this.changeTitle = this.changeTitle.bind(this)
         this.changeDesc = this.changeDesc.bind(this)
         this.newToDo = this.newToDo.bind(this)
+
+/*        this.context = toDoContext;
         this.initToDoData = this.initToDoData.bind(this)
         this.updateToDoData = this.updateToDoData.bind(this)
-        this.postToDo = this.postToDo.bind(this)
+        this.postToDo = this.postToDo.bind(this)*/
     }
-    initToDoData(data) {
+/*    initToDoData(data) {
         this.context.setToDoData(data)
-    }
+    }*/
     updateToDoData(data) {
         console.log("data in update: ",data)
         var oldList = this.context.toDoData

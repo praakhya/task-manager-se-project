@@ -6,13 +6,18 @@ import axios from 'axios';
 import { toDoContext } from './toDoContext';
 
 class ToDoList extends Component {
+  static contextType = toDoContext;
+
     constructor(props) {
         super();
-        this.state = {list:[]}
-        this.getToDo = this.getToDo.bind(this)
-        this.initToDoData = this.initToDoData.bind(this)
-        this.setItemList = this.setItemList.bind(this)
-    }
+//        const context = this.context;
+        //It will get the data from context, and put it into the state.
+  //      this.setState({ toDoData: context.toDoData });
+    
+    //    this.getToDo = this.getToDo.bind(this)
+      //  this.initToDoData = this.initToDoData.bind(this)
+        //this.setItemList = this.setItemList.bind(this)
+    }  
     getToDo() {
         console.log("in get ToDo");
         var baseUrl = "/api";
@@ -33,8 +38,9 @@ class ToDoList extends Component {
     }
     initToDoData(data){
       console.log("init data: ",data)
-      this.context.setToDoData(data)
-      console.log("toDo state var: ",this.context.toDoData)
+      const context = this.context;
+      context.setToDoData(data)
+      console.log("toDo state var: ",data, context)
     }
     setItemList(response) {
       var temp = []
@@ -47,7 +53,6 @@ class ToDoList extends Component {
         })
       }
       this.initToDoData(temp)
-      this.setState({list:temp})
       console.log("context var: ",this.context)
     }
     componentDidMount() {
@@ -56,12 +61,8 @@ class ToDoList extends Component {
       console.log("ToDoList mounted")
     }
     render() {
-        if (!this.state.list) {
-          return (<div></div>)
-        }
-        else {
           var itemList = []
-          for (let todo of this.state.list){
+          for (let todo of this.context.toDoData){
             itemList.push(<ToDoItem title={todo.title} description={todo.description} done={todo.done}/>)
           }
           console.log("itemList: ",itemList)
@@ -70,7 +71,6 @@ class ToDoList extends Component {
               {itemList}
               </div>
           );
-        }
         
     }
   }
