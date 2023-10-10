@@ -26,7 +26,6 @@ class ToDoList extends Component {
           if (response.status != 200) {
             throw new Error(response.message);
           }
-          //console.log("immediated response: ",response)
           return response.data})
         .then(data=>{
           console.log("data: ",data)
@@ -49,9 +48,10 @@ class ToDoList extends Component {
           "title":todo.title,
           "description":todo.description,
           "done":todo.done,
-          "_id":todo.id
+          "_id":todo._id
         })
       }
+      console.log("immediated response: ",response)
       this.initToDoData(temp)
       console.log("context var: ",this.context)
     }
@@ -63,11 +63,13 @@ class ToDoList extends Component {
     render() {
           var itemList = []
           for (let todo of this.context.toDoData){
-            itemList.push(<ToDoItem title={todo.title} description={todo.description} done={todo.done}/>)
+            console.log("TODOLIST: todo done: ",todo.done, "default done: ",this.props.defaultDone)
+            if (todo.done==this.props.defaultDone)
+              itemList.push(<ToDoItem todo={todo} disabled={this.props.disabled} defaultDone={this.props.defaultDone}/>)
           }
-          console.log("itemList: ",itemList)
+          console.log("itemList: ",this.props.defaultDone,itemList)
           return (
-              <div className="ToDoList">
+              <div className="scrollable">
               {itemList}
               </div>
           );
