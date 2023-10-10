@@ -1,9 +1,18 @@
+const { ObjectId } = require("mongodb");
 const ToDo = require("./ToDo");
+
 exports.getToDo = async (req,res) => {
     try {
         const todo = await ToDo.find({});
         //console.log("In load: ",books);
-        return res.status(200).json(todo)
+        const newtodo=[]
+        for (var i in todo) {
+            var t={}
+            t = {"_id":todo[i]._id.toHexString(), "title":todo[i].title, "description":todo[i].description, "done":todo[i].done}
+            newtodo.push(t)
+            console.log("converted: ",newtodo)
+        }
+        return res.status(200).json(newtodo)
     }
     catch(err) {
         console.log("error: ", err);
@@ -35,13 +44,41 @@ exports.addToDo = async (req,res) => {
         })
     }
 }
+exports.completeToDo = async (req,res) => {
+    //console.log("Final url is ", req.originalUrl)
+    //console.log("_id",req.params.id)
+    var todo = new ToDo({
+        _id:req.body._id,
+        done: req.body.done,
+    })
+    //console.log("updation todo: ",todo);
+    try {
+        console.log("complete: ",todo)
+        var oldtodo = await ToDo.updateOne({_id: todo._id}, {done: todo.done})
+        console.log("update status: ",oldtodo)
+        var newtodo= await ToDo.findOne({_id: todo._id}).exec()
+        console.log("new to do: ",newtodo)
+        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString()}
+        //console.log("returned: ",todo)
+        res.status(200).json(newtodo)
+    } 
+    catch (err) {
+        console.log("error:",err)
+        res.status(409).json({
+            message: "ToDo update unsuccessful",
+            error: err.message
+        })
+    }
+}
 
 exports.putToDo = async (req,res) => {
-    const id = req.params.id;
+    const id = req.body._id;
     console.log("in put at server: ",req)
     try{
         await Book.updateOne( {_id: id}, req.body);
-        this.getToDo(req,res);
+        var newtodo= await Book.findOne({_id: id})
+        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id}
+        return res.status(200).json(newtodo)
     }
     catch (err) {
         res.status(409).json({
