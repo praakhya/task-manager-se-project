@@ -7,6 +7,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: var(--list-width);
+    height: fit-content;
 }
 .toDoText {
     font-family: 'Roboto', sans-serif;
@@ -30,9 +31,12 @@
     width: fit-content;
     padding: 1em;
     margin: 1em;
+    position: relative;
 }
 .disabled {
     text-decoration: line-through;
+    max-height: var(--list-width);
+    overflow-y: hidden;
 }
 .completed {
     min-width: var(--list-width);
@@ -47,5 +51,31 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: fit-content;
+    width: 80vw;
+    position: relative;
+}
+.tools {
+    display: flex;
+    flex-direction: column;
+}
+.toDoText-editmode {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 0em;
+    width: 60vw;
+
+}
+.todolist {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: baseline;
+    align-content: start;
+}
+.addToDoButton {
+    position: absolute;
+    right: 1em;
+    top:1em;
+
 }

@@ -10,6 +10,27 @@ class ToDoList extends Component {
 
     constructor(props) {
         super();
+        this.placeholder=[
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+          },
+          {
+            "_id": "",
+            "title": "This is a To Do Note",
+            "description": "Write anything you wish to remember",
+            "done": true,
+          },
+          {
+            "_id": "",
+            "title": "Enjoy the application!",
+            "description": "",
+            "done": true,
+          }
+        ]
+
 //        const context = this.context;
         //It will get the data from context, and put it into the state.
   //      this.setState({ toDoData: context.toDoData });
@@ -33,6 +54,7 @@ class ToDoList extends Component {
         })
         .catch((err) => {
           console.log(err);
+          this.setItemList(this.placeholder)
         });
     }
     initToDoData(data){
@@ -69,7 +91,7 @@ class ToDoList extends Component {
           }
           console.log("itemList: ",this.props.defaultDone,itemList)
           return (
-              <div className="scrollable">
+              <div className="todolist">
               {itemList}
               </div>
           );

@@ -5,11 +5,12 @@ const toDoContext = React.createContext();
 function ToDoProvider({ children }) {
     // The useState() hook defines a state variable.
     const [toDoData, setToDoData] = useState([]);
+    const [showEdit, toggleEdit] = useState(false);
     
     // The useEffect() hook registers a function to run after render.
     useEffect(() => {
         console.log("context change: ",toDoData)
-    }, [toDoContext,toDoData]);  // This empty array means the effect will only run once.
+    }, [toDoContext,toDoData, showEdit]);  // This empty array means the effect will only run once.
     // On the first render userData will have the default value null.
     // But after that render, the effect function will run and will
     // start a fetch of the real user data. When the data arrives, it
@@ -18,7 +19,7 @@ function ToDoProvider({ children }) {
     // user data to provide to any consumers. (And the effect will not
     // run again.)
     return (
-        <toDoContext.Provider value={{ toDoData, setToDoData}}>
+        <toDoContext.Provider value={{ toDoData, setToDoData, showEdit, toggleEdit}}>
             {children}
         </toDoContext.Provider>
     );

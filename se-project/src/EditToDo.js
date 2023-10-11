@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { TextField, Card } from '@mui/material';
 import axios from 'axios';
 import { toDoContext } from './toDoContext';
+import { MdExpandMore, MdNoteAdd, MdClose } from "react-icons/md";
 
 class EditToDo extends Component {
     static contextType = toDoContext;
@@ -33,6 +34,7 @@ class EditToDo extends Component {
         var newdata = { title: data.title, description: data.description, done: data.done, _id: data._id }
         oldList.push(newdata)
         this.context.setToDoData(oldList)
+        this.context.toggleEdit()
     }
     postToDo() {
         console.log("in get ToDo");
@@ -64,6 +66,10 @@ class EditToDo extends Component {
 
         return (
             <Card variant="outlined" id="card">
+                <Button sx={{color:"black", position:"absolute", top:"0em", right:"0em"}} 
+                onClick={()=>{this.context.toggleEdit(0)}}>
+                    <MdClose/>
+                </Button>
                 <div className="EditToDo">
                     <TextField
                         id="standard-basic"
