@@ -21,9 +21,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage : storage })
 
 const router = express.Router();
-const { getToDo, addToDo, completeToDo, putToDo} = require("./load");
+const { getToDo, addToDo, completeToDo, updateToDo} = require("./load");
 router.route("/load/ToDo").get(getToDo);
 router.route("/load/ToDo/").post(addToDo);
 router.route("/load/ToDo/complete").put(completeToDo);
-router.route("/load/ToDo/update").put(putToDo);
+router.route("/load/ToDo/update").put(updateToDo);
 module.exports = router;

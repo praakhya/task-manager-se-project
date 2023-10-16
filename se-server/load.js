@@ -71,18 +71,44 @@ exports.completeToDo = async (req,res) => {
     }
 }
 
-exports.putToDo = async (req,res) => {
-    const id = req.body._id;
-    console.log("in put at server: ",req)
-    try{
-        await Book.updateOne( {_id: id}, req.body);
-        var newtodo= await Book.findOne({_id: id})
-        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id}
-        return res.status(200).json(newtodo)
+exports.updateToDo = async (req,res) => {
+    //console.log("Final url is ", req.originalUrl)
+    //console.log("_id",req.params.id)
+    console.log("req body: ",req.body)
+    var todo={}
+    if (req.body.label=="title") {
+        todo = new ToDo({
+            _id:req.body._id,
+            title: req.body.title,
+        })
     }
+    else if (req.body.label=="description") {
+        todo = new ToDo({
+            _id:req.body._id,
+            description: req.body.description,
+        })
+    }
+    
+    //console.log("updation todo: ",todo);
+    try {
+        console.log("update: ",todo)
+        if (req.body.label=="title") {
+            var oldtodo = await ToDo.updateOne({"_id": todo._id}, {"title": todo.title})
+        }
+        else if (req.body.label=="description") {
+            var oldtodo = await ToDo.updateOne({"_id": todo._id}, {"description": todo.description})
+        }
+        console.log("update status: ",oldtodo)
+        var newtodo= await ToDo.findOne({_id: todo._id}).exec()
+        console.log("new to do: ",newtodo)
+        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString()}
+        //console.log("returned: ",todo)
+        res.status(200).json(newtodo)
+    } 
     catch (err) {
+        console.log("error:",err)
         res.status(409).json({
-            message: "ToDo addition unsuccessful",
+            message: "ToDo update unsuccessful",
             error: err.message
         })
     }
