@@ -11,7 +11,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { MdDelete } from "react-icons/md";
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { TextField } from '@mui/material';
 class ToDoItem extends Component {
     static contextType = toDoContext;
 
@@ -25,6 +25,7 @@ class ToDoItem extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.toggleToDo = this.toggleToDo.bind(this);
         this.addCheckedToDo = this.addCheckedToDo.bind(this);
+        this.callUpdateToDo = this.callUpdateToDo.bind(this)
 
     }
     updateToDo(text, id, label) {
@@ -40,8 +41,7 @@ class ToDoItem extends Component {
             });
     }
     setText(val, id, label) {
-        console.log("val: ", val, "id: ", id, "label: ", label)
-        this.updateToDo(val, id, label)
+        console.log("val: ", val, "id: ", id, "label: ", label, this.state)
         if (label == "title") {
             this.setState({ "titleText": val })
         }
@@ -49,6 +49,11 @@ class ToDoItem extends Component {
             this.setState({ "descriptionText": val })
         }
 
+    }
+    callUpdateToDo() {
+        console.log(this.state, this.props.todo._id, "title")
+        this.updateToDo(this.state.titleText, this.props.todo._id, "title")
+        this.updateToDo(this.state.descriptionText, this.props.todo._id, "description")
     }
     addCheckedToDo(todo) {
         var list = this.context.toDoData;
@@ -96,45 +101,56 @@ class ToDoItem extends Component {
         }
         if (this.state.checked == this.props.defaultDone) {
             return (
-                <Card variant="outlined" id="card">
+                <Card variant="outlined" className="updateToDo">
 
                     <div className="ToDoItem">
                         {/* <div class={textStyle}>
                             <div>{this.props.todo.title}</div>
                             <div>{this.props.todo.description}</div>
                         </div> */}
-                        <div class={textStyle}>
-                            <Inplace closable>
-                                <InplaceDisplay >
-                                    <div>
-                                        <div>{this.state.titleText || this.props.todo.title}</div>
-                                    </div>
-                                </InplaceDisplay>
-                                <InplaceContent>
-                                    <InputText value={this.state.titleText} onChange={(e) => this.setText(e.target.value, this.props.todo._id, "title")} autoFocus />
-                                </InplaceContent>
-                            </Inplace>
-                            <Inplace closable>
-                                <InplaceDisplay >
-                                    <div>
-                                        <div>{this.state.descriptionText || this.props.todo.description}</div>
-                                    </div>
-                                </InplaceDisplay>
-                                <InplaceContent>
-                                    <InputTextarea value={this.state.descriptionText} onChange={(e) => this.setText(e.target.value, this.props.todo._id, "description")} autoFocus />
-                                </InplaceContent>
-                            </Inplace>
-                        </div>
-                        <div className='tools'>
-                            <Checkbox
-                                checked={this.state.checked}
-                                onChange={this.handleChange} />
-                            <IconButton aria-label="delete">
-                                <DeleteIcon />
-                            </IconButton>
-                        </div>
+
+                        <Inplace closable onClose={this.callUpdateToDo}>
+                            <InplaceDisplay>
+                                <div class={textStyle}>
+                                    <div>{this.state.titleText || this.props.todo.title}</div>
+                                    <div>{this.state.descriptionText || this.props.todo.description}</div>
+                                </div>
+                            </InplaceDisplay>
+                            <InplaceContent>
+                                <div class={textStyle}>
+                                    <TextField
+                                        id="standard-basic"
+                                        label="Title"
+                                        variant="standard"
+                                        size='small'
+                                        spellCheck="true"
+                                        value={this.state.titleText}
+                                        onChange={(e) => this.setText(e.target.value, this.props.todo._id, "title")} />
+                                    <TextField
+                                        id="outlined-multiline-flexible"
+                                        label="Description"
+                                        multiline
+                                        minRows={5}
+                                        maxRows={5}
+                                        spellCheck="true"
+                                        value={this.state.descriptionText}
+                                        onChange={(e) => this.setText(e.target.value, this.props.todo._id, "description")}
+                                    />
+                                    {/* <Button variant="outlined" id="editButton" onClick={this.callUpdateToDo}>Confirm</Button> */}
+                                </div>
+                                {/* <InputText value={this.state.titleText} onChange={(e) => this.setText(e.target.value, this.props.todo._id, "title")} autoFocus /> */}
+                            </InplaceContent>
+                        </Inplace>
+                    <div className='tools'>
+                        <Checkbox
+                            checked={this.state.checked}
+                            onChange={this.handleChange} />
+                        <IconButton aria-label="delete">
+                            <DeleteIcon />
+                        </IconButton>
                     </div>
-                </Card>
+                </div>
+                </Card >
             );
         }
     }
