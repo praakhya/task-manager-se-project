@@ -42,9 +42,16 @@ class ToDo extends Component {
                         </Button>
                         <TabContext value={this.state.view}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <TabList onChange={(event, newValue) => {
+                                <TabList 
+                                onChange={(event, newValue) => {
                                     this.setState({ view: newValue })
-                                }} aria-label="lab API tabs example">
+                                }} 
+                                aria-label="lab API tabs example"
+                                TabIndicatorProps={{
+                                    sx: {
+                                        color: "var(--dark-green)",
+                                    },
+                                  }}>
                                     <Tab label="Incomplete" value="1" />
                                     <Tab label="Completed" value="2" />
                                 </TabList>

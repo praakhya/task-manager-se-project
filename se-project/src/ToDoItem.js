@@ -101,7 +101,7 @@ class ToDoItem extends Component {
         }
         if (this.state.checked == this.props.defaultDone) {
             return (
-                <Card variant="outlined" className="updateToDo">
+                <Card variant="outlined" className="updateToDo" style={{backgroundColor:"var(--sage)"}}>
 
                     <div className="ToDoItem">
                         {/* <div class={textStyle}>
@@ -112,7 +112,7 @@ class ToDoItem extends Component {
                         <Inplace closable onClose={this.callUpdateToDo}>
                             <InplaceDisplay>
                                 <div class={textStyle}>
-                                    <div>{this.state.titleText || this.props.todo.title}</div>
+                                    <div style={{fontWeight: "bold"}}>{this.state.titleText || this.props.todo.title}</div>
                                     <div>{this.state.descriptionText || this.props.todo.description}</div>
                                 </div>
                             </InplaceDisplay>
@@ -125,6 +125,7 @@ class ToDoItem extends Component {
                                         size='small'
                                         spellCheck="true"
                                         value={this.state.titleText}
+                                        style={{fontWeight: "bold"}}
                                         onChange={(e) => this.setText(e.target.value, this.props.todo._id, "title")} />
                                     <TextField
                                         id="outlined-multiline-flexible"
@@ -144,9 +145,10 @@ class ToDoItem extends Component {
                     <div className='tools'>
                         <Checkbox
                             checked={this.state.checked}
-                            onChange={this.handleChange} />
+                            onChange={this.handleChange} 
+                            className='tool-item'/>
                         <IconButton aria-label="delete">
-                            <DeleteIcon />
+                            <DeleteIcon className='tool-item'/>
                         </IconButton>
                     </div>
                 </div>

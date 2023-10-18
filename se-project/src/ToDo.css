@@ -2,6 +2,13 @@
 :root {
     --list-width: 30vw;
     --edit-width:40vw;
+    --blue: #D2E0FB;
+    --yellow:#F9F3CC;
+    --sage: #D7E5CA;
+    --dark-blue: #8EACCD;
+    --dark-green: #415033;
+
+
 }
 .ToDoItem {
     display: flex;
@@ -95,3 +102,6 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.tool-item {
+    color: var(--dark-green);
+}
