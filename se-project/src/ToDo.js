@@ -8,6 +8,7 @@ import "./ToDo.css"
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
+import Tabs from '@mui/material/Tabs';
 
 
 class ToDo extends Component {
@@ -34,42 +35,53 @@ class ToDo extends Component {
         return (
             <div className="App">
                 <toDoContext.Provider value={{ toDoData: this.state.toDoData, setToDoData: this.setToDoData, showEdit: this.state.addMode, toggleEdit: this.setAddMode }}>
-                    <Card className="ToDoFull">
-                        <Button variant="outline" sx={{color: "black", fontSize: "1em"}} onClick={() => {
-                            this.setAddMode(!this.state.addMode)
-                        }}>
-                            <MdNoteAdd />
-                        </Button>
-                        <TabContext value={this.state.view}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <TabList 
+
+
+                    <TabContext value={this.state.view}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs
+                                value={this.state.view}
                                 onChange={(event, newValue) => {
                                     this.setState({ view: newValue })
-                                }} 
-                                aria-label="lab API tabs example"
-                                TabIndicatorProps={{
-                                    sx: {
-                                        color: "var(--dark-green)",
-                                    },
-                                  }}>
-                                    <Tab label="Incomplete" value="1" />
-                                    <Tab label="Completed" value="2" />
-                                </TabList>
-                            </Box>
-                            {
-                                this.renderEdit()
-                            }
-                            <TabPanel value="1">
+                                }}
+                                TabIndicatorProps={{ style: { background: 'var(--dark-green)' } }}
+                                sx={{
+                                    ".Mui-selected": {
+                                        color: 'var(--dark-green)',
+                                        backgroundColor: "var(--sage)"
+                                    }
+                                }}
+                                textColor="var(--dark-green)">
+                                <Tab label="Incomplete" value="1" />
+                                <Tab label="Completed" value="2" />
+                            </Tabs>
+                        </Box>
+                        {
+                            this.renderEdit()
+                        }
+                        <div className="contentFlow">
+
+                            <TabPanel value="1" className="tabPanel">
+                                <Button variant="outline" className="addToDoButton" onClick={() => {
+                                    this.setAddMode(!this.state.addMode)
+                                }}>
+                                    +
+                                </Button>
                                 <ToDoList disabled={false} defaultDone={false} />
                             </TabPanel>
-                            <TabPanel value="2">
+                            <TabPanel value="2" className="tabPanel">
+                                <Button variant="outline" sx={{ color: "black", fontSize: "1em", alignSelf: "flex-start" }} onClick={() => {
+                                    this.setAddMode(!this.state.addMode)
+                                }}>
+                                    +
+                                </Button>
                                 <ToDoList disabled={true} defaultDone={true} />
                             </TabPanel>
-                        </TabContext>
+                        </div>
+                    </TabContext>
 
 
 
-                    </Card>
                 </toDoContext.Provider>
             </div>)
     }

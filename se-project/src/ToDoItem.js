@@ -20,13 +20,15 @@ class ToDoItem extends Component {
         this.state = {
             checked: this.props.defaultDone,
             titleText: this.props.todo.title,
-            descriptionText: this.props.todo.description
+            descriptionText: this.props.todo.description,
+            trashed: this.props.defaultTrash
         }
         this.handleChange = this.handleChange.bind(this);
         this.toggleToDo = this.toggleToDo.bind(this);
         this.addCheckedToDo = this.addCheckedToDo.bind(this);
         this.callUpdateToDo = this.callUpdateToDo.bind(this)
-
+        this.toggleTrash = this.toggleTrash.bind(this)
+        this.trashToDo = this.trashToDo.bind(this)
     }
     updateToDo(text, id, label) {
         console.log("in update ToDo: id=", id, "text=", text, "label=", label);
@@ -65,6 +67,16 @@ class ToDoItem extends Component {
         this.context.setToDoData(list)
         console.log(this.context.toDoData)
     }
+    addTrashedToDo(todo) {
+        var list = this.context.toDoData;
+        for (var i in list) {
+            if (list[i]._id == todo._id) {
+                list[i].trashed = todo.trashed
+            }
+        }
+        this.context.setToDoData(list)
+        console.log(this.context.toDoData)
+    }
     addUpdatedToDo(todo) {
         var list = this.context.toDoData;
         for (var i in list) {
@@ -88,11 +100,29 @@ class ToDoItem extends Component {
                 console.log(err);
             });
     }
+    toggleTrash(id, trashed) {
+        console.log("in complete ToDo: ", id, trashed);
+        var baseUrl = "/api";
+        axios.put(baseUrl + '/load/ToDo/trash', { "_id": id, "trashed": trashed })
+            .then(response => {
+                console.log("response on trash: ", response)
+                this.addTrashedToDo(response.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
     handleChange() {
         var newDone = !this.state.checked
         this.setState({ checked: newDone });
         console.log("NEW CHECK: ", this.state.checked)
         this.toggleToDo(this.props.todo._id, newDone)
+    }
+    trashToDo() {
+        var newTrashed = !this.state.trashed
+        this.setState({ trashed: newTrashed });
+        console.log("NEW CHECK: ", this.state.trashed)
+        this.toggleTrash(this.props.todo._id, newTrashed)
     }
     render() {
         var textStyle = "toDoText"
@@ -109,7 +139,7 @@ class ToDoItem extends Component {
                             <div>{this.props.todo.description}</div>
                         </div> */}
 
-                        <Inplace closable onClose={this.callUpdateToDo}>
+                        <Inplace closable onClose={this.callUpdateToDo} className='ToDoContent'>
                             <InplaceDisplay>
                                 <div class={textStyle}>
                                     <div style={{fontWeight: "bold"}}>{this.state.titleText || this.props.todo.title}</div>
@@ -143,11 +173,11 @@ class ToDoItem extends Component {
                             </InplaceContent>
                         </Inplace>
                     <div className='tools'>
-                        <Checkbox
+                        <input type="checkbox"
                             checked={this.state.checked}
                             onChange={this.handleChange} 
                             className='tool-item'/>
-                        <IconButton aria-label="delete">
+                        <IconButton aria-label="delete" onClick={this.trashToDo}>
                             <DeleteIcon className='tool-item'/>
                         </IconButton>
                     </div>

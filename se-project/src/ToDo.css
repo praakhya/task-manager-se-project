@@ -10,11 +10,15 @@
 
 
 }
+.App {
+    display: flex;
+    flex-direction: column;
+}
 .ToDoItem {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: var(--list-width);
+    width: fit-content;
     height: fit-content;
 }
 .toDoText {
@@ -22,7 +26,7 @@
     display: flex;
     flex-direction: column;
     gap: 1em;
-    width: var(--list-width);
+    overflow-wrap: break-word;
 
 }
 .EditToDo {
@@ -43,11 +47,9 @@
     flex-grow: 1;
 }
 .updateToDo {
-    width: fit-content;
     padding: 1em;
     margin: 1em;
     position: relative;
-    flex-grow: 1;
     
 }
 .disabled {
@@ -87,14 +89,16 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    align-items: baseline;
-    align-content: start;
+    align-items: flex-start;
+    width: fit-content;
+    padding: 1em;
+    border: 1px solid green;
 }
 .addToDoButton {
-    position: absolute;
-    right: 1em;
-    top:1em;
-
+    height: 100%;
+    color: "black";
+    font-size: "1em";
+    align-self: "flex-start";
 }
 
 .p-inplace{
@@ -104,4 +108,26 @@
 
 .tool-item {
     color: var(--dark-green);
+    accent-color: var(--dark-green);
+}
+.ToDoContent {
+    max-width: 50em;
+}
+.ToDoContent > * {
+    overflow-wrap: break-word;
+}
+
+.contentFlow {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     border: 1px solid black;
+}
+.tabPanel {
+    border: 1px solid red;
+    width: 90vw;
+    flex-direction: row;
+    display: flex;
+    gap: 1em;
+
 }

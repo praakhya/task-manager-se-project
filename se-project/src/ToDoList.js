@@ -16,18 +16,21 @@ class ToDoList extends Component {
             "title": "Welcome to Zeme!",
             "description": "Browse through our various features",
             "done": false,
+            "trashed":false
           },
           {
             "_id": "",
             "title": "This is a To Do Note",
             "description": "Write anything you wish to remember",
             "done": true,
+            "trashed":false
           },
           {
             "_id": "",
             "title": "Enjoy the application!",
             "description": "",
             "done": true,
+            "trashed":false
           }
         ]
 
@@ -70,7 +73,8 @@ class ToDoList extends Component {
           "title":todo.title,
           "description":todo.description,
           "done":todo.done,
-          "_id":todo._id
+          "_id":todo._id,
+          "trashed":todo.trashed
         })
       }
       console.log("immediated response: ",response)
@@ -85,8 +89,8 @@ class ToDoList extends Component {
     render() {
           var itemList = []
           for (let todo of this.context.toDoData){
-            console.log("TODOLIST: todo done: ",todo.done, "default done: ",this.props.defaultDone)
-            if (todo.done==this.props.defaultDone)
+            console.log("TODOLIST: todo done: ",todo.done, "default done: ",this.props.defaultDone, "trashed: ",todo.trashed)
+            if (todo.done==this.props.defaultDone && todo.trashed!=true)
               itemList.push(<ToDoItem todo={todo} disabled={this.props.disabled} defaultDone={this.props.defaultDone}/>)
           }
           console.log("itemList: ",this.props.defaultDone,itemList)

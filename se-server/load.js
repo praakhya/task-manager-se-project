@@ -139,14 +139,11 @@ exports.deleteToDo = async(req, res) => {
     }
 }
 exports.trashToDo = async(req, res) => {
-    console.log("req body: ",req.body)
-    var todo={}
+    console.log("req body: ",req.body._id, req.body.trashed)
     
     //console.log("updation todo: ",todo);
-    try {
-        console.log("update: ",todo)
-        
-        var status = await ToDo.updateOne({"_id": req.body._id, "trashed":true})
+    try {        
+        var status = await ToDo.updateOne({"_id": req.body._id}, {"trashed":req.body.trashed});
         var newtodo = await ToDo.findOne({"_id": req.body._id})
         console.log("update status: ",status)
         console.log("trash to do: ",newtodo)
