@@ -9,6 +9,9 @@ const schema = new mongoDB.Schema({
     done: {
         type: Boolean
     },
+    trashed: {
+        type: Boolean
+    }
 })
 const ToDo = mongoDB.model("ToDo", schema, "ToDo");
 module.exports = ToDo;

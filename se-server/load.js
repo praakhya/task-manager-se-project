@@ -8,7 +8,7 @@ exports.getToDo = async (req,res) => {
         const newtodo=[]
         for (var i in todo) {
             var t={}
-            t = {"_id":todo[i]._id.toHexString(), "title":todo[i].title, "description":todo[i].description, "done":todo[i].done}
+            t = {"_id":todo[i]._id.toHexString(), "title":todo[i].title, "description":todo[i].description, "done":todo[i].done, "trashed":todo[i].trashed}
             newtodo.push(t)
             console.log("converted: ",newtodo)
         }
@@ -28,6 +28,7 @@ exports.addToDo = async (req,res) => {
         title:req.body.title,
         description:req.body.description,
         done: false,
+        trashed: false
     })
     console.log("created todo: ",todo);
     try {
@@ -49,7 +50,7 @@ exports.completeToDo = async (req,res) => {
     //console.log("_id",req.params.id)
     var todo = new ToDo({
         _id:req.body._id,
-        done: req.body.done,
+        done: req.body.done
     })
     //console.log("updation todo: ",todo);
     try {
@@ -58,7 +59,7 @@ exports.completeToDo = async (req,res) => {
         console.log("update status: ",oldtodo)
         var newtodo= await ToDo.findOne({_id: todo._id}).exec()
         console.log("new to do: ",newtodo)
-        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString()}
+        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString(), "trashed":newtodo.trashed}
         //console.log("returned: ",todo)
         res.status(200).json(newtodo)
     } 
@@ -101,9 +102,72 @@ exports.updateToDo = async (req,res) => {
         console.log("update status: ",oldtodo)
         var newtodo= await ToDo.findOne({_id: todo._id}).exec()
         console.log("new to do: ",newtodo)
-        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString()}
+        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString(), "trashed":newtodo.trashed}
         //console.log("returned: ",todo)
         res.status(200).json(newtodo)
+    } 
+    catch (err) {
+        console.log("error:",err)
+        res.status(409).json({
+            message: "ToDo update unsuccessful",
+            error: err.message
+        })
+    }
+}
+
+exports.deleteToDo = async(req, res) => {
+    console.log("req body: ",req.body)
+    var todo={}
+    
+    //console.log("updation todo: ",todo);
+    try {
+        console.log("update: ",todo)
+        var oldtodo = await ToDo.findOne({"_id": req.body._id})
+        var status = await ToDo.deleteOne({"_id": oldtodo._id})
+        console.log("update status: ",status)
+        console.log("delete to do: ",oldtodo)
+        oldtodo = {"title":oldtodo.title, "description":oldtodo.description, "done":oldtodo.done, "_id":oldtodo._id.toHexString(), "trashed":true}
+        //console.log("returned: ",todo)
+        res.status(200).json(oldtodo)
+    } 
+    catch (err) {
+        console.log("error:",err)
+        res.status(409).json({
+            message: "ToDo update unsuccessful",
+            error: err.message
+        })
+    }
+}
+exports.trashToDo = async(req, res) => {
+    console.log("req body: ",req.body)
+    var todo={}
+    
+    //console.log("updation todo: ",todo);
+    try {
+        console.log("update: ",todo)
+        
+        var status = await ToDo.updateOne({"_id": req.body._id, "trashed":true})
+        var newtodo = await ToDo.findOne({"_id": req.body._id})
+        console.log("update status: ",status)
+        console.log("trash to do: ",newtodo)
+        newtodo = {"title":newtodo.title, "description":newtodo.description, "done":newtodo.done, "_id":newtodo._id.toHexString(), "trashed":newtodo.trashed}
+        //console.log("returned: ",todo)
+        res.status(200).json(newtodo)
+    } 
+    catch (err) {
+        console.log("error:",err)
+        res.status(409).json({
+            message: "ToDo update unsuccessful",
+            error: err.message
+        })
+    }
+}
+
+exports.deleteAllToDo = async(req, res) => {
+    try {
+        var status = await ToDo.deleteMany({})
+        console.log("update status: ",status)
+        res.status(200).json(status)
     } 
     catch (err) {
         console.log("error:",err)
