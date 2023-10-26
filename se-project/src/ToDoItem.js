@@ -146,7 +146,7 @@ class ToDoItem extends Component {
                                     <div>{this.state.descriptionText || this.props.todo.description}</div>
                                 </div>
                             </InplaceDisplay>
-                            <InplaceContent>
+                            <InplaceContent className="InplaceContent">
                                 <div class={textStyle}>
                                     <TextField
                                         id="standard-basic"

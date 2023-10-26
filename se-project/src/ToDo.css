@@ -29,22 +29,22 @@
     overflow-wrap: break-word;
 
 }
+
 .EditToDo {
     display: flex;
     flex-direction: column;
-    width: var(--list-width);
-    gap:0.5em;
+    width: fit-content;
+    gap: 0.5em;
+}
+.EditToDoCard {
+    width: fit-content;
+    align-self: center;
+    padding:  1em;
+    position: relative;
 }
 #editButton {
     align-self: flex-end;
     width: fit-content;
-}
-#card {
-    width: fit-content;
-    padding: 1em;
-    margin: 1em;
-    position: relative;
-    flex-grow: 1;
 }
 .updateToDo {
     padding: 1em;
@@ -92,15 +92,39 @@
     align-items: flex-start;
     width: fit-content;
     padding: 1em;
-    border: 1px solid green;
+    height: fit-content;
 }
 .addToDoButton {
-    height: 100%;
-    color: "black";
+    width: 2em;
+    height: 2em;
+    color: var(--dark-green);
     font-size: "1em";
-    align-self: "flex-start";
+    justify-self: "center";
+    border: none;
+    border-radius: 1em;
+    padding: 0.2em;
+    font-weight: bolder;
+    font-size:xx-large;
 }
+.closeButton {
+    color: var(--dark-green);
+    height: 100%;
+    border-radius: 0.25em;
+}
+         
+.btn-grad {
+    background-image: linear-gradient(to right, #DAD299 0%, #B0DAB9  51%, #DAD299  100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+    box-shadow: 0 0 20px #eee;
+    border:none;
+  }
 
+  .btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+  }
+ 
 .p-inplace{
     border: none;
     font-family: 'Roboto', sans-serif;
@@ -121,13 +145,16 @@
      display: flex;
      flex-direction: row;
      flex-wrap: wrap;
-     border: 1px solid black;
 }
 .tabPanel {
-    border: 1px solid red;
     width: 90vw;
-    flex-direction: row;
     display: flex;
+    flex-direction: column;
     gap: 1em;
 
+}
+.editCluster {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
 }

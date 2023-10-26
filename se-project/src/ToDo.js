@@ -2,7 +2,7 @@ import ToDoList from './ToDoList.js';
 import EditToDo from './EditToDo';
 import { Component } from 'react';
 import { ToDoProvider, toDoContext } from './toDoContext';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Card, Tab, Box, Button } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Card, Tab, Box } from '@mui/material';
 import { MdExpandMore, MdNoteAdd, MdClose } from "react-icons/md";
 import "./ToDo.css"
 import TabPanel from '@mui/lab/TabPanel';
@@ -28,7 +28,23 @@ class ToDo extends Component {
     }
     renderEdit = () => {
         if (this.state.addMode) {
-            return (<EditToDo></EditToDo>)
+            return (
+                <div className="editCluster">
+                    <EditToDo></EditToDo>
+                </div>)
+        }
+        else {
+            return (
+                <div className="editCluster">
+                    <button
+                        className="addToDoButton btn-grad"
+                        onClick={() => {
+                            this.setAddMode(!this.state.addMode)
+                        }}>
+                        +
+                    </button>
+                </div>
+            )
         }
     }
     render() {
@@ -56,25 +72,15 @@ class ToDo extends Component {
                                 <Tab label="Completed" value="2" />
                             </Tabs>
                         </Box>
-                        {
-                            this.renderEdit()
-                        }
                         <div className="contentFlow">
 
                             <TabPanel value="1" className="tabPanel">
-                                <Button variant="outline" className="addToDoButton" onClick={() => {
-                                    this.setAddMode(!this.state.addMode)
-                                }}>
-                                    +
-                                </Button>
+                                {
+                                    this.renderEdit()
+                                }
                                 <ToDoList disabled={false} defaultDone={false} />
                             </TabPanel>
                             <TabPanel value="2" className="tabPanel">
-                                <Button variant="outline" sx={{ color: "black", fontSize: "1em", alignSelf: "flex-start" }} onClick={() => {
-                                    this.setAddMode(!this.state.addMode)
-                                }}>
-                                    +
-                                </Button>
                                 <ToDoList disabled={true} defaultDone={true} />
                             </TabPanel>
                         </div>

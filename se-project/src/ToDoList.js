@@ -20,6 +20,76 @@ class ToDoList extends Component {
           },
           {
             "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
+            "title": "Welcome to Zeme!",
+            "description": "Browse through our various features",
+            "done": false,
+            "trashed":false
+          },
+          {
+            "_id": "",
             "title": "This is a To Do Note",
             "description": "Write anything you wish to remember",
             "done": true,

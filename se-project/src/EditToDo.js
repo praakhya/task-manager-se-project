@@ -65,11 +65,13 @@ class EditToDo extends Component {
         console.log("edittodo render")
 
         return (
-            <Card variant="outlined" id="card">
-                <Button sx={{color:"black", position:"absolute", top:"0em", right:"0em"}} 
+            <div className='editCluster'>
+            <button className="addToDoButton btn-grad closeButton"
                 onClick={()=>{this.context.toggleEdit(0)}}>
                     <MdClose/>
-                </Button>
+                </button>
+            <Card variant="outlined" className="EditToDoCard">
+                
                 <div className="EditToDo">
                     <TextField
                         id="standard-basic"
@@ -78,20 +80,39 @@ class EditToDo extends Component {
                         size='small'
                         spellCheck="true"
                         value={this.state.title}
-                        onChange={this.changeTitle} />
+                        onChange={this.changeTitle} 
+                        className='textField'
+                        sx= {{width: "60vw"}}/>
                     <TextField
                         id="outlined-multiline-flexible"
                         label="Description"
                         multiline
-                        minRows={5}
+                        minRows={1}
                         maxRows={5}
                         spellCheck="true"
                         value={this.state.description}
                         onChange={this.changeDesc}
+                        className='textField'
                     />
-                    <Button variant="outlined" id="editButton" onClick={this.newToDo}>Submit</Button>
+                    <Button 
+                        variant="outlined" id="editButton" onClick={this.newToDo}
+                        sx={{
+                            color: "var(--dark-green)",
+                            borderColor: "var(--dark-green)",
+                            "&:hover": {
+                                boxShadow: "none",
+                                background: "var(--sage)",
+                                borderColor: "var(--sage)"
+                              },
+                              "&:active": {
+                                boxShadow: "none",
+                                background: "none"
+                              }
+                        }}
+                    >Submit</Button>
                 </div>
             </Card>
+            </div>
         );
     }
 }
